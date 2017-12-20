@@ -1,0 +1,60 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">GitHub Search</a>
+        </div>
+        <div class="search-container">
+            <input #searchInput placeholder="Search...." class="form-control search-input" (keyup.enter)="onSearch(searchInput.value)" />
+            <label>
+                    <input #isOnlyFav (change)="changeSearchCriteria(isOnlyFav.checked)" type="checkbox"> Search Only on your interesting github repositories
+            </label>
+        </div>
+
+    </div>
+</nav>
+<div class="container" *ngIf="!searchBy">
+    <h1>Client​ ​ Side​ ​ Caching</h1>
+    <p>This is simple web app that uses the public API provided by GitHub (https://developer.github.com/v3/search/#search-repositories) to search through ​ repositories</p>
+    <p>this app supports offline searching</p>
+    <P>As a user you can flag interesting repositories. These repositories should also be cached​ ​ and​ ​ searchable</P>
+</div>
+<div class="container text-center">
+
+    <div class="row">
+        <div *ngFor="let item of searchResult" class="col-sm-6 col-md-3">
+            <div class="thumbnail">
+                <img alt="100%x200" style="height: 200px; width: 100%; display: block;" src={{item.owner.avatar_url}} data-holder-rendered="true">
+                <div class="caption">
+                    <h3>{{item.name}}</h3>
+                    <div class="item-tags">
+                        <span class="label label-default">
+                       Stars  {{item.stargazers_count}}
+                    </span>
+                        <span class="label label-primary">Fork {{item.forks}}</span>
+                        <span class="label label-success">Issues {{item.open_issues_count}}</span>
+                    </div>
+                    <p class="description">{{item.description}}</p>
+                    <p class="action">
+                        <a [attr.href]="item.html_url">Visit Repository</a>
+                        <a class="btn btn-block" [ngClass]="{
+                            'btn-info':!item.isFav,
+                            'btn-success':item.isFav
+                        }" (click)="toggleFlagRepoAsFav(item)" role="button">{{item.isFav?'Liked':'like this repository'}}</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="search-results" infinite-scroll [infiniteScrollDistance]="20" [infiniteScrollThrottle]="1000" (scrolled)="onScroll()">
+    </div>
+    <div *ngIf="!isEndOfTheSearch && searchBy">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div *ngIf="totalCount>0" class="info">
+        <span>
+        {{viewCount}} Of {{totalCount}}
+        </span>
+    </div>
+
+</div>

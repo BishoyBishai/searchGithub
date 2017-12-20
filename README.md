@@ -25,6 +25,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ```javascript
 npm install
-npm run start
+npm ng serve
 http://127.0.0.1:4200/
 ```

@@ -1,7 +1,6 @@
 import { GithubResultItem } from "./../types/github";
 import { Observable } from "rxjs/Observable";
 import { Injectable } from "@angular/core";
-import { GithubResultItem } from "../types/github";
 import * as _ from "lodash";
 import { environment } from "../../environments/environment";
 
